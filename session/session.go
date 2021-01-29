@@ -11,6 +11,8 @@ type Session interface {
 	ReceiveAESOFB() *crypto.AESOFB
 	WriteHello()
 	Disconnect()
+	LastRequest()
+	UpdateLastRequest()
 }
 
 type Creator interface {
