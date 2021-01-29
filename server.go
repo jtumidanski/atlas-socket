@@ -105,7 +105,7 @@ func (s *Server) handle(sessionId int, p request.Request) {
 	go func(sessionId int, reader request.RequestReader) {
 		op := reader.ReadUint16()
 		if h, ok := s.handlers[op]; ok {
-			h.Handle(sessionId, reader)
+			h(sessionId, reader)
 		} else {
 			s.logger.Printf("[INFO] Session %d read a unhandled message with op %05X.", sessionId, op&0xFF)
 		}
