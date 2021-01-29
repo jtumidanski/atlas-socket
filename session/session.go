@@ -14,6 +14,7 @@ type Session interface {
 	Disconnect()
 	LastRequest() time.Time
 	UpdateLastRequest()
+	GetRemoteAddress() net.Addr
 }
 
 type Creator interface {
