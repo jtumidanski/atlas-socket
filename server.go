@@ -66,7 +66,7 @@ func (s *Server) Run() {
 func (s *Server) run(conn net.Conn, sessionId int, headerSize int) {
 	defer conn.Close()
 
-	ses, err := s.sessionService.Create(s.logger, sessionId, conn)
+	ses, err := s.sessionService.Create(sessionId, conn)
 	if err != nil {
 		return
 	}
