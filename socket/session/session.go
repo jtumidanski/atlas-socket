@@ -1,7 +1,7 @@
 package session
 
 import (
-   "atlas-socket/crypto"
+   "github.com/jtumidanski/atlas-socket/crypto"
    "log"
    "net"
 )

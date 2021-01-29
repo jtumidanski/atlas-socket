@@ -1,8 +1,8 @@
 package handlers
 
 import (
-   "atlas-socket/request"
-   "atlas-socket/session"
+   "github.com/jtumidanski/atlas-socket/request"
+   "github.com/jtumidanski/atlas-socket/session"
    "log"
 )
 

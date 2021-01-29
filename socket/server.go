@@ -1,10 +1,10 @@
 package socket
 
 import (
-   "atlas-socket/crypto"
-   "atlas-socket/request"
-   "atlas-socket/session"
    "fmt"
+   "github.com/jtumidanski/atlas-socket/crypto"
+   "github.com/jtumidanski/atlas-socket/request"
+   "github.com/jtumidanski/atlas-socket/session"
    "log"
    "net"
    "os"
