@@ -4,6 +4,7 @@ import (
 	"github.com/jtumidanski/atlas-socket/crypto"
 	"log"
 	"net"
+	"time"
 )
 
 type Session interface {
@@ -11,7 +12,7 @@ type Session interface {
 	ReceiveAESOFB() *crypto.AESOFB
 	WriteHello()
 	Disconnect()
-	LastRequest()
+	LastRequest() time.Time
 	UpdateLastRequest()
 }
 
