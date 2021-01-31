@@ -138,3 +138,7 @@ func (r *RequestReader) ReadAsciiString() string {
 func (r *RequestReader) Position() int {
    return r.pos
 }
+
+func (r *RequestReader) Seek(offset int)  {
+   r.pos = offset
+}
