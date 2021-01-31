@@ -134,3 +134,7 @@ func (r *RequestReader) ReadAsciiString() string {
    am := r.ReadInt16()
    return r.ReadString(am)
 }
+
+func (r *RequestReader) Position() int {
+   return r.pos
+}
