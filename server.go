@@ -97,8 +97,7 @@ func (s *Server) run(conn net.Conn, sessionId int, headerSize int) {
 	}
 
 	s.logger.Printf("[INFO] Session %d exiting read loop.", sessionId)
-
-	ses.Disconnect()
+	s.sessionService.Destroy(sessionId)
 }
 
 func (s *Server) handle(sessionId int, p request.Request) {

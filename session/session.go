@@ -10,7 +10,6 @@ type Session interface {
    SessionId() int
    ReceiveAESOFB() *crypto.AESOFB
    WriteHello()
-   Disconnect()
    LastRequest() time.Time
    UpdateLastRequest()
    GetRemoteAddress() net.Addr
