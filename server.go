@@ -5,21 +5,21 @@ import (
 	"github.com/jtumidanski/atlas-socket/crypto"
 	"github.com/jtumidanski/atlas-socket/request"
 	"github.com/jtumidanski/atlas-socket/session"
-	"log"
+	"github.com/sirupsen/logrus"
 	"net"
 	"os"
 	"time"
 )
 
 type Server struct {
-	logger         *log.Logger
+	logger         *logrus.Logger
 	sessionService session.Service
 	ipAddress      string
 	port           int
 	handlers       map[uint16]request.Handler
 }
 
-func NewServer(l *log.Logger, s session.Service, opts ...ServerOpt) (*Server, error) {
+func NewServer(l *logrus.Logger, s session.Service, opts ...ServerOpt) (*Server, error) {
 	server := Server{
 		l,
 		s,
@@ -38,10 +38,10 @@ func (s *Server) RegisterHandler(op uint16, handler request.Handler) {
 }
 
 func (s *Server) Run() {
-	s.logger.Printf("[INFO] Starting tcp server on %s:%d", s.ipAddress, s.port)
+	s.logger.Infof("Starting tcp server on %s:%d", s.ipAddress, s.port)
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%d", s.ipAddress, s.port))
 	if err != nil {
-		s.logger.Println("Error listening:", err.Error())
+		s.logger.WithError(err).Errorln("Error listening:", err.Error())
 		os.Exit(1)
 	}
 	defer lis.Close()
@@ -51,11 +51,11 @@ func (s *Server) Run() {
 	for {
 		c, err := lis.Accept()
 		if err != nil {
-			s.logger.Println("Error connecting:", err.Error())
+			s.logger.WithError(err).Errorln("Error connecting:", err.Error())
 			return
 		}
 
-		s.logger.Println("[INFO] Client " + c.RemoteAddr().String() + " connected.")
+		s.logger.Infof("Client %s connected.", c.RemoteAddr().String())
 
 		go s.run(c, sessionId, 4)
 
@@ -96,7 +96,7 @@ func (s *Server) run(conn net.Conn, sessionId int, headerSize int) {
 		header = !header
 	}
 
-	s.logger.Printf("[INFO] Session %d exiting read loop.", sessionId)
+	s.logger.Infof("Session %d exiting read loop.", sessionId)
 	s.sessionService.Destroy(sessionId)
 }
 
@@ -106,7 +106,7 @@ func (s *Server) handle(sessionId int, p request.Request) {
 		if h, ok := s.handlers[op]; ok {
 			h(sessionId, reader)
 		} else {
-			s.logger.Printf("[INFO] Session %d read a unhandled message with op %05X.", sessionId, op&0xFF)
+			s.logger.Infof("Session %d read a unhandled message with op %05X.", sessionId, op&0xFF)
 		}
 	}(sessionId, request.NewRequestReader(&p, time.Now().Unix()))
 }
