@@ -1,15 +1,33 @@
 package socket
 
-type ServerOpt func(s *Server)
+type ServerConfigurator func(s *serverConfiguration)
 
-func IpAddress(ipAddress string) func(*Server) {
-	return func(s *Server) {
+func SetIpAddress(ipAddress string) func(*serverConfiguration) {
+	return func(s *serverConfiguration) {
 		s.ipAddress = ipAddress
 	}
 }
 
-func Port(port int) func(*Server) {
-	return func(s *Server) {
+func SetPort(port int) func(*serverConfiguration) {
+	return func(s *serverConfiguration) {
 		s.port = port
+	}
+}
+
+func SetSessionCreator(creator SessionCreator) ServerConfigurator {
+	return func(s *serverConfiguration) {
+		s.creator = creator
+	}
+}
+
+func SetSessionDestroyer(destroyer SessionDestroyer) ServerConfigurator {
+	return func(s *serverConfiguration) {
+		s.destroyer = destroyer
+	}
+}
+
+func SetSessionMessageDecryptor(decryptor SessionMessageDecryptor) ServerConfigurator {
+	return func(s *serverConfiguration) {
+		s.decryptor = decryptor
 	}
 }

@@ -1,3 +1,3 @@
 package request
 
-type Handler func(int, RequestReader)
+type Handler func(uint32, RequestReader)
